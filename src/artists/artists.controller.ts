@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -9,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Artist, ArtistDocument } from '../shemas/artist.shema';
+import { Artist, ArtistDocument } from '../schemas/artist.schema';
 import { Model } from 'mongoose';
 import { CreateArtistDto } from './create-artist.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -34,6 +35,16 @@ export class ArtistsController {
       throw new NotFoundException('No such artist');
     }
     return artist;
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    const result = await this.artistModel.deleteOne({ _id: id });
+
+    if (!result) {
+      throw new NotFoundException('No such artist found to delete');
+    }
+    return { message: 'Artist deleted successfully' };
   }
 
   @Post()
