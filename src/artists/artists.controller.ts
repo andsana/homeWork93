@@ -51,6 +51,7 @@ export class ArtistsController {
     return { message: 'Artist deleted successfully' };
   }
 
+  @UseGuards(TokenAuthGuard)
   @Post()
   @UseInterceptors(
     FileInterceptor('image', { dest: './public/uploads/artists' }),

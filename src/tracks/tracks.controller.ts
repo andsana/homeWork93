@@ -7,11 +7,14 @@ import {
   Param,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateTrackDto } from './create-track.dto';
 import { Track, TrackDocument } from '../schemas/track.schema';
+import { TokenAuthGuard } from '../auth/token-auth.guard';
+import { AdminGuard } from '../auth/admin.guard';
 
 @Controller('tracks')
 export class TracksController {
@@ -42,6 +45,7 @@ export class TracksController {
     return track;
   }
 
+  @UseGuards(TokenAuthGuard, AdminGuard)
   @Delete(':id')
   async delete(@Param('id') id: string) {
     const result = await this.trackModel.deleteOne({ _id: id });
@@ -53,6 +57,7 @@ export class TracksController {
     return { message: 'Track deleted successfully' };
   }
 
+  @UseGuards(TokenAuthGuard)
   @Post()
   async create(@Body() trackDto: CreateTrackDto) {
     return await this.trackModel.create({
