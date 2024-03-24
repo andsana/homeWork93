@@ -10,7 +10,7 @@ export class Track {
   @Prop({ required: true, unique: true })
   title: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   number: number;
 
   @Prop()
@@ -18,4 +18,7 @@ export class Track {
 }
 
 export const TrackSchema = SchemaFactory.createForClass(Track);
+
+TrackSchema.index({ album: 1, number: 1 }, { unique: true });
+
 export type TrackDocument = Track & Document;

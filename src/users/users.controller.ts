@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from '../schemas/user.shcema';
+import { User, UserDocument } from '../schemas/user.schema';
 import mongoose, { Model } from 'mongoose';
 import { RegisterUserDto } from './register-user.dto';
 import { AuthGuard } from '@nestjs/passport';
